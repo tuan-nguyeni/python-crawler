@@ -13,15 +13,18 @@ print(result.elements()[0].geometry())
 import osmnx as ox
 import geopandas as gpd
 
-place_name = "Liechtenstein"
+place_name = "ingolstadt"
+data_path = "data/poi_data/"
+prefix = "_poi.csv"
+tags_query ="shop"
 
 # Get place boundary related to the place name as a geodataframe
 area = ox.geocode_to_gdf(place_name)
 
-tags = {'building': 'commercial'}
-#tags = {'amenity': 'atm'}
+tags = {tags_query: True}
 
-buildings = ox.geometries_from_place(place_name, tags)
-print(buildings.head(10))
-#print(buildings.get("node=='2269325371'"))
-print(buildings.count())
+amenity = ox.geometries_from_place(place_name, tags)
+print(amenity.head(10))
+print(amenity.count())
+
+amenity.to_csv(data_path+tags_query+place_name+prefix)
